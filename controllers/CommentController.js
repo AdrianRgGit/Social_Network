@@ -102,6 +102,7 @@ const CommentController = {
   async delete(req, res) {
     try {
       const comment = await Comment.findByIdAndDelete(req.params._id);
+      console.log("prueba git")
 
       res.send({ message: "Comment deleted", comment });
     } catch (error) {
