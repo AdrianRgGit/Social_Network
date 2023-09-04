@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require("cors")
 
 require("dotenv").config();
 const PORT = process.env.PORT || 3001;
@@ -9,6 +10,8 @@ const { handleTypeError } = require("./middlewares/errors");
 
 app.use(express.json());
 app.use(express.static("./assets"));
+app.use(cors())
+
 
 dbConnection();
 
