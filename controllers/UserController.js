@@ -120,7 +120,7 @@ const UserController = {
       user.tokens.push(token);
       await user.save();
 
-      res.send({ message: "Welcome " + user.username, token });
+      res.send({ message: "Welcome " + user.username, token, user: user.username });
     } catch (error) {
       next(error);
       console.error(error);
