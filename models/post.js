@@ -20,11 +20,21 @@ const PostSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Agregar una propiedad virtual para la URL de la image
+PostSchema.virtual("image_url").get(function () {
+  if (this.image) {
+    return `/assets/images/post/${this.image}`;
+  }
+});
+
 PostSchema.methods.toJSON = function () {
   const post = this._doc;  
   delete post.createdAt;
   delete post.updatedAt;  
   delete post.__v;
+
+    // Agregar la URL de la image
+    post.image_url = this.image_url;
   return post;
 };
 

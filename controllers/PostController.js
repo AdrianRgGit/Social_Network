@@ -1,5 +1,8 @@
 const Post = require("../models/post");
 
+// configura path para después poder utilizar las imágenes en Frontend
+const path = require('path');
+
 const PostController = {
   async getAll(req, res) {
     try {
@@ -162,6 +165,18 @@ const PostController = {
         .send({ message: "There was a problem trying to remove the post" });
     }
   },
+
+  async servePostImage(req, res) {
+    try {
+      const imageName = req.params.imageName;
+      const imagePath = path.join( __dirname, "../assets/images/post", imageName
+      );
+      res.sendFile(imagePath);
+    } catch (error) {
+      res.status(500).send({ message: "Error serving post image", error });
+    }
+  },
+
 };
 
 module.exports = PostController;

@@ -9,6 +9,7 @@ router.get("/getall", PostController.getAll)
 router.get("/id/:_id", PostController.getById);
 router.get("/title/:title", PostController.getPostsByName);
 router.get("/", PostController.getPostUserComment);
+router.get("/images/:imageName", PostController.servePostImage)
 
 router.post("/create", authentication, uploadPostImages.single('image'), PostController.create);
 
