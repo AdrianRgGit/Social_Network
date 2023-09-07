@@ -17,6 +17,7 @@ router.put('/resetpassword/:recoverToken',UserController.resetPassword)
 router.put("/follow/:_id", authentication, UserController.follow);
 router.put("/unfollow/:_id", authentication, UserController.unfollow);
 
+router.get("/images/:imageName", UserController.serveUserImage)
 router.delete("/logout", authentication, UserController.logout);
 
 module.exports = router;
