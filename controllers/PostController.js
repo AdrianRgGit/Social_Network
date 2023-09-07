@@ -75,6 +75,7 @@ const PostController = {
       const post = await Post.create({
         ...req.body,
         userId: req.user._id,
+        image: req.file?.filename,
       });
 
       res.status(201).send({ msg: "Post created correctly", post });
