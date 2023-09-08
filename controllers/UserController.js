@@ -89,6 +89,20 @@ const UserController = {
     }
   },
 
+  async update(req, res) {
+    try {
+      const user = await User.findByIdAndUpdate(
+        req.params._id,
+        { ...req.body, avatar: req.file?.filename },
+        { new: true }
+      );
+
+      res.send({ message: "User successfully updated", user });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   async login(req, res, next) {
     try {
       const user = await User.findOne({
@@ -233,14 +247,9 @@ const UserController = {
         to: req.params.email,
 
         subject: "Recover password",
-
-        html: `<h3> Recover password </h3>
-    
-    <a href="${url}">Recover password</a>
-    
-    The link expires in 48 hours
-    
-    `,
+        html: `<h3> Recover password </h3>   
+    <a href="${url}">Recover password</a>   
+    The link expires in 48 hours`,
       });
 
       res.send({
@@ -269,6 +278,8 @@ const UserController = {
       console.error(error);
     }
   },
+
+
 
   async serveUserImage(req, res) {
     try {

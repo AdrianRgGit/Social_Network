@@ -48,4 +48,27 @@ const isAuthor = async (req, res, next) => {
   }
 };
 
-module.exports = { authentication, /* isSuperAdmin, isAdmin, */ isAuthor };
+const isAuthorUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params._id);
+    console.log(user)
+    console.log(user._id)
+
+    if (user._id.toString() !== req.user._id.toString()) {
+      return reserr
+        .status(403)
+        .send({ message: "You cannot edit elements that are not yours" });
+    }
+
+    next();
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).send({
+      error,
+      message: "There was a problem with the author check",
+    });
+  }
+};
+
+module.exports = { authentication, /* isSuperAdmin, isAdmin, */ isAuthorUser, isAuthor };
