@@ -21,11 +21,9 @@ const UserSchema = new mongoose.Schema(
     },
 
     postIds: [{ type: ObjectId, ref: "Post" }],
-
     commentIds: [{ type: ObjectId, ref: "Comment" }],
+    followers: [{ type: ObjectId, ref: "User" }],
 
-    followers: [{type: ObjectId, ref: "User"}],
-    
     avatar: String,
     role: String,
     confirmed: Boolean,
@@ -33,6 +31,15 @@ const UserSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Agregar una propiedad virtual para la URL del avatar
+UserSchema.virtual("avatar_url").get(function () {
+  if (this.avatar) {
+    return `/assets/images/user/${this.avatar}`;
+  }
+  // Si no hay avatar, puedes proporcionar una URL predeterminada o manejarlo de la manera que prefieras
+  return "/assets/images/user/default-avatar.jpg"; // Cambia la ruta según tu estructura de carpetas
+});
 
 UserSchema.methods.toJSON = function () {
   const user = this._doc;
@@ -43,6 +50,9 @@ UserSchema.methods.toJSON = function () {
   delete user.confirmed;
   delete user.role;
   delete user.__v;
+
+  // Agregar la URL del avatar
+  user.avatar_url = this.avatar_url;
   return user;
 };
 

@@ -2,6 +2,9 @@ const User = require("../models/user");
 const transporter = require("../config/nodemailer");
 require("dotenv").config();
 
+// configura path para después poder utilizar las imágenes en Frontend
+const path = require('path');
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const jwt_secret = process.env.JWT_SECRET
@@ -264,6 +267,18 @@ const UserController = {
       console.error(error);
     }
   },
+
+  async serveUserImage(req, res) {
+    try {
+      const imageName = req.params.imageName;
+      const imagePath = path.join( __dirname, "../assets/images/user", imageName
+      );
+      res.sendFile(imagePath);
+    } catch (error) {
+      res.status(500).send({ message: "Error serving user image", error });
+    }
+  },
+
 };
 
 module.exports = UserController;
