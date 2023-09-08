@@ -1,7 +1,8 @@
 const Post = require("../models/post");
 
 // configura path para después poder utilizar las imágenes en Frontend
-const path = require('path');
+const path = require("path");
+const User = require("../models/user");
 
 const PostController = {
   async getAll(req, res) {
@@ -83,6 +84,11 @@ const PostController = {
         image: req.file?.filename,
       });
 
+      await User.findByIdAndUpdate(
+        req.user._id,
+        { $push: { postIds: post._id } },
+        { new: true }
+      );
       res.status(201).send({ msg: "Post created correctly", post });
     } catch (error) {
       console.error(error);
@@ -169,14 +175,16 @@ const PostController = {
   async servePostImage(req, res) {
     try {
       const imageName = req.params.imageName;
-      const imagePath = path.join( __dirname, "../assets/images/post", imageName
+      const imagePath = path.join(
+        __dirname,
+        "../assets/images/post",
+        imageName
       );
       res.sendFile(imagePath);
     } catch (error) {
       res.status(500).send({ message: "Error serving post image", error });
     }
   },
-
 };
 
 module.exports = PostController;

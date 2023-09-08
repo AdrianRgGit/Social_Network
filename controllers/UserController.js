@@ -3,18 +3,16 @@ const transporter = require("../config/nodemailer");
 require("dotenv").config();
 
 // configura path para después poder utilizar las imágenes en Frontend
-const path = require('path');
+const path = require("path");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const jwt_secret = process.env.JWT_SECRET
+const jwt_secret = process.env.JWT_SECRET;
 
 const UserController = {
   async getUserConnected(req, res) {
     try {
-      const getUser = await User.findById(req.user._id)
-        .populate("postIds")
-        .populate("followers");
+      const getUser = await User.findById(req.user._id).populate("postIds");
 
       res.send({ message: "User: ", getUser });
     } catch (error) {
@@ -123,7 +121,11 @@ const UserController = {
       user.tokens.push(token);
       await user.save();
 
-      res.send({ message: "Welcome " + user.username, token, user: user.username });
+      res.send({
+        message: "Welcome " + user.username,
+        token,
+        user: user.username,
+      });
     } catch (error) {
       next(error);
       console.error(error);
@@ -271,14 +273,16 @@ const UserController = {
   async serveUserImage(req, res) {
     try {
       const imageName = req.params.imageName;
-      const imagePath = path.join( __dirname, "../assets/images/user", imageName
+      const imagePath = path.join(
+        __dirname,
+        "../assets/images/user",
+        imageName
       );
       res.sendFile(imagePath);
     } catch (error) {
       res.status(500).send({ message: "Error serving user image", error });
     }
   },
-
 };
 
 module.exports = UserController;
