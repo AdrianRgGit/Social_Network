@@ -10,8 +10,8 @@ const UserController = {
   async getUserConnected(req, res) {
     try {
       const getUser = await User.findById(req.user._id)
-        .populate("postIds", "title body")
-        .populate("followers", "username");
+        .populate("postIds")
+        .populate("followers");
 
       res.send({ message: "User: ", getUser });
     } catch (error) {

@@ -15,8 +15,8 @@ const PostController = {
   async getById(req, res) {
     try {
       const post = await Post.findById(req.params._id)
-        .populate("userId", "username")
-        .populate("commentIds", "title body");
+        .populate("userId")
+        .populate("commentIds");
 
       if (!post) {
         return res.status(400).send({ message: "This post doesn't exist" });

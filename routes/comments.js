@@ -12,7 +12,6 @@ router.get("/id/:_id", authentication, CommentController.getById);
 router.post("/create", authentication, uploadCommentImages.single('image'),CommentController.create);
 
 router.put("/id/:_id", authentication, isAuthor,  uploadCommentImages.single('image'), CommentController.update);
-router.put("/like/:_id", authentication, CommentController.like);
 router.put("/like/:_id", authentication,CommentController.like);
 router.put("/dislike/:_id", authentication, CommentController.dislike);
 
