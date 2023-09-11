@@ -12,7 +12,7 @@ const jwt_secret = process.env.JWT_SECRET;
 const UserController = {
   async getUserConnected(req, res) {
     try {
-      const getUser = await User.findById(req.user._id).populate("postIds");
+      const getUser = await User.findById(req.params._id).populate("postIds");
 
       res.send({ message: "User: ", getUser });
     } catch (error) {
@@ -94,10 +94,14 @@ const UserController = {
       const password = await bcrypt.hash(req.body.password, 10);
 
       const user = await User.findByIdAndUpdate(
-        req.params._id,
+        req.params._id, 
         { ...req.body, password, avatar: req.file?.filename },
         { new: true }
       );
+
+      if (!user) {
+        return res.status(400).send({ message: "This user doesn't exist" });
+      }
 
       res.send({ message: "User successfully updated", user });
     } catch (error) {
@@ -136,11 +140,12 @@ const UserController = {
 
       user.tokens.push(token);
       await user.save();
-
-      res.send({
-        message: "Welcome " + user.username,
-        token,
+      console.log(user)
+      res.send({ 
+        message: "Welcome " + user.username, 
+        token,  
         user: user.username,
+        userObject: user,
       });
     } catch (error) {
       next(error);
