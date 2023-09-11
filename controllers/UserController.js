@@ -12,7 +12,7 @@ const jwt_secret = process.env.JWT_SECRET;
 const UserController = {
   async getUserConnected(req, res) {
     try {
-      const getUser = await User.findById(req.params._id).populate("postIds");
+      const getUser = await User.findById(req.user._id).populate("postIds");
 
       res.send({ message: "User: ", getUser });
     } catch (error) {

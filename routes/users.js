@@ -4,7 +4,7 @@ const UserController = require("../controllers/UserController");
 const { authentication, isAuthorUser } = require("../middlewares/authentication");
 const { uploadUserImages } = require("../middlewares/multer");
 
-router.get("/getuserconnected/:_id", authentication, UserController.getUserConnected);
+router.get("/getuserconnected", authentication, UserController.getUserConnected);
 router.get("/getuserbyusername/:username", UserController.getUserByUserName);
 router.get("/getuserbyid/:_id", UserController.getUserById);
 router.get("/confirm/:email", UserController.confirm);
