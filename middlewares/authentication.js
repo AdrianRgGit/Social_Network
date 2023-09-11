@@ -50,7 +50,7 @@ const isAuthor = async (req, res, next) => {
 
 const isAuthorUser = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params._id);
+    const user = await User.findById(req.user._id);
     console.log(user)
     console.log(user._id)
 

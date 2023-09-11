@@ -14,8 +14,7 @@ router.get("/images/:imageName", UserController.serveUserImage)
 router.post( "/register", uploadUserImages.single("avatar"), UserController.register);
 router.post("/login", UserController.login);
 
-// router.put( "/id/:_id", authentication, isAuthor, uploadPostImages.single('image'), PostController.update);
-router.put("/id/:_id", authentication, isAuthorUser, uploadUserImages.single("avatar"), UserController.update)
+router.put("/update", authentication, isAuthorUser, uploadUserImages.single("avatar"), UserController.update)
 router.put('/resetpassword/:recoverToken',UserController.resetPassword)
 router.put("/follow/:_id", authentication, UserController.follow);
 router.put("/unfollow/:_id", authentication, UserController.unfollow);

@@ -92,9 +92,8 @@ const UserController = {
   async update(req, res) {
     try {
       const password = await bcrypt.hash(req.body.password, 10);
-
       const user = await User.findByIdAndUpdate(
-        req.params._id, 
+        req.user._id, 
         { ...req.body, password, avatar: req.file?.filename },
         { new: true }
       );
