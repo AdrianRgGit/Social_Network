@@ -3,15 +3,15 @@ const User = require("../models/user");
 const Post = require("../models/post");
 
 const CommentController = {
-  
+
   async getById(req, res) {
     try {
-      const comment = await Comment.findById(req.params._id);
-      
+      const comment = await Comment.findById(req.params._id).populate("userId");
+
       if (!comment) {
         return res.status(400).send({ message: "This comment doesn't exist" });
       }
-      
+
       res.send(comment);
     } catch (error) {
       console.error(error);
@@ -33,7 +33,7 @@ const CommentController = {
       next(error);
     }
   },
-  
+
   async update(req, res) {
     try {
       const comment = await Comment.findByIdAndUpdate(
@@ -47,7 +47,7 @@ const CommentController = {
       console.error(error);
     }
   },
-  
+
   async like(req, res) {
     try {
       const comment = await Comment.findById(req.params._id);
