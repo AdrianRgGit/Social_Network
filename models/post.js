@@ -29,8 +29,6 @@ PostSchema.virtual("image_url").get(function () {
 
 PostSchema.methods.toJSON = function () {
   const post = this._doc;  
-  delete post.createdAt;
-  delete post.updatedAt;  
   delete post.__v;
 
     // Agregar la URL de la image
