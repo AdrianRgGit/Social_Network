@@ -20,7 +20,14 @@ const PostController = {
     try {
       const post = await Post.findById(req.params._id)
         .populate("userId")
-        .populate("commentIds");
+        .populate({
+          path: "commentIds",
+          populate:
+            {
+              path: "userId",
+              select: "username avatar_url",
+            },
+        });
 
       if (!post) {
         return res.status(400).send({ message: "This post doesn't exist" });
@@ -146,13 +153,13 @@ const PostController = {
           .send({ message: "You have already disliked this post" });
       }
 
-      await Post.updateOne(
-        findPost,
+      const post = await Post.findByIdAndUpdate(
+        findPost._id,
         { $pull: { likes: req.user._id } },
         { new: true }
       );
 
-      res.send(findPost);
+      res.send(post);
     } catch (error) {
       console.error(error);
 
