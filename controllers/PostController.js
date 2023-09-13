@@ -20,7 +20,14 @@ const PostController = {
     try {
       const post = await Post.findById(req.params._id)
         .populate("userId")
-        .populate("commentIds");
+        .populate({
+          path: "commentIds",
+          populate:
+            {
+              path: "userId",
+              select: "username avatar_url",
+            },
+        });
 
       if (!post) {
         return res.status(400).send({ message: "This post doesn't exist" });
