@@ -146,13 +146,13 @@ const PostController = {
           .send({ message: "You have already disliked this post" });
       }
 
-      await Post.updateOne(
-        findPost,
+      const post = await Post.findByIdAndUpdate(
+        findPost._id,
         { $pull: { likes: req.user._id } },
         { new: true }
       );
 
-      res.send(findPost);
+      res.send(post);
     } catch (error) {
       console.error(error);
 
