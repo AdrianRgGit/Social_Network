@@ -25,7 +25,7 @@ const PostController = {
           populate:
             {
               path: "userId",
-              select: "username avatar_url",
+              select: "username avatar",
             },
         });
 
